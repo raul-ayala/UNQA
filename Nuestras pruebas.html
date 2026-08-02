@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<title>UNQA · Nuestras pruebas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"></link>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"></link>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"></link>
+<style>
+  @font-face { font-family: 'Ringold Sans'; src: url('assets/fonts/Ringold-Sans.otf') format('opentype'); font-weight: normal; font-display: swap; }
+  :root {
+    --accent: #3EDFDB; --accent-deep: #2FA9AF;
+    --ink: #07090A; --ink-soft: #0C1112; --paper: #F4FBFA;
+    --font-display: 'Ringold Sans', sans-serif; --font-body: 'Montserrat', sans-serif;
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--ink); color: var(--paper); -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); }
+  a:hover { color: var(--accent-deep); }
+
+  /* NAV */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 80; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 26px clamp(24px, 5vw, 72px); background: transparent; border-bottom: 1px solid transparent; transition: background .35s var(--ease), padding .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease), backdrop-filter .35s var(--ease); }
+  .nav.is-scrolled { background: rgba(7,9,10,0.72); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4); border-bottom-color: rgba(244,251,250,0.14); box-shadow: 0 10px 30px rgba(0,0,0,0.28); padding-top: 14px; padding-bottom: 14px; }
+  .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+  .nav-brand img.lockup { height: 46px; width: auto; display: block; }
+  
+  .nav-links { display: flex; align-items: center; gap: clamp(20px, 3vw, 40px); }
+  .nav-link { font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--paper); text-decoration: none; position: relative; padding: 6px 0; transition: color 200ms var(--ease); }
+  .nav-link::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 2px; background: var(--accent); transition: right 280ms var(--ease); }
+  .nav-link:hover { color: var(--accent); }
+  .nav-link:hover::after { right: 0; }
+  .nav-link.active { color: var(--accent); }
+  .nav-link.active::after { right: 0; }
+  .nav-cta { font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); background: var(--paper); border: none; border-radius: 999px; padding: 13px 26px; cursor: pointer; text-decoration: none; transition: background 200ms var(--ease), transform 200ms var(--ease); }
+  .nav-cta:hover { background: var(--accent); transform: translateY(-2px); color: var(--ink); }
+  .nav-cta:active { transform: scale(0.98); }
+
+  /* PAGE HERO */
+  .page-hero { padding: clamp(130px, 18vh, 210px) clamp(24px, 5vw, 72px) clamp(40px, 6vh, 72px); text-align: center; }
+  .overline { display: inline-flex; align-items: center; gap: 14px; font-size: clamp(11px, 1vw, 13px); font-weight: 600; letter-spacing: 0.26em; text-transform: uppercase; color: var(--accent); margin-bottom: clamp(20px, 3vh, 30px); }
+  .page-hero h1 { font-family: var(--font-display); font-weight: normal; text-transform: uppercase; font-size: clamp(48px, 8vw, 118px); line-height: 0.94; letter-spacing: 0.01em; margin-bottom: clamp(20px, 3vh, 30px); }
+  .page-hero h1 em { font-style: normal; color: var(--accent); }
+  .page-hero p { max-width: 640px; margin: 0 auto; font-size: clamp(16px, 1.35vw, 20px); font-weight: 500; line-height: 1.65; color: rgba(244,251,250,0.72); text-wrap: pretty; }
+
+  /* VIDEO */
+  .video-wrap { padding: 0 clamp(24px, 5vw, 72px) clamp(72px, 11vh, 130px); }
+  .video { position: relative; max-width: 1200px; margin: 0 auto; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: radial-gradient(120% 120% at 50% 40%, #141a1b 0%, #0a0d0e 70%); border: 1px solid #FFFFFF60; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .video-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: saturate(0.9); }
+  .video::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,9,10,0.85), rgba(7,9,10,0.35) 55%, rgba(7,9,10,0.55)); z-index: 1; }
+  .video-play, .video::after { z-index: 2; }
+  .video::after { content: "VIDEO DEMO · PRÓXIMAMENTE"; position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.14em; font-size: clamp(12px, 1.1vw, 15px); color: rgba(244,251,250,0.45); }
+  .video-play { width: clamp(78px, 9vw, 118px); height: clamp(78px, 9vw, 118px); border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; transition: transform 260ms var(--ease), box-shadow 260ms var(--ease); box-shadow: 0 20px 60px rgba(62,223,219,0.28); }
+  .video:hover .video-play { transform: scale(1.08); box-shadow: 0 24px 80px rgba(62,223,219,0.42); }
+  .video-play svg { width: 34%; height: 34%; fill: var(--ink); }
+  .video-cap { max-width: 1200px; margin: 22px auto 0; display: flex; flex-wrap: wrap; gap: 12px 40px; justify-content: center; }
+  .video-cap span { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: rgba(244,251,250,0.6); display: inline-flex; align-items: center; gap: 10px; }
+  .video-cap span::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+  /* CTA FINAL */
+  .cta-final { position: relative; overflow: hidden; background: var(--accent); color: var(--ink); padding: clamp(80px, 15vh, 170px) clamp(24px, 5vw, 72px); isolation: isolate; }
+  .cta-final::before { content: "UNQA"; position: absolute; right: -0.06em; bottom: -0.28em; font-family: var(--font-display); font-size: clamp(180px, 34vw, 560px); line-height: 1; color: rgba(7,9,10,0.06); letter-spacing: -0.02em; z-index: -1; pointer-events: none; }
+  .cta-inner { max-width: 1100px; }
+  .cta-final .overline { color: rgba(7,9,10,0.65); }
+  .cta-final .overline::before { content: ""; width: 44px; height: 2px; background: rgba(7,9,10,0.65); }
+  .cta-title { font-family: var(--font-display); font-weight: normal; text-transform: uppercase; font-size: clamp(44px, 8vw, 128px); line-height: 0.94; letter-spacing: 0.01em; margin-bottom: clamp(20px, 3vh, 32px); }
+  .cta-sub { max-width: 540px; font-size: clamp(16px, 1.4vw, 20px); font-weight: 600; line-height: 1.6; color: rgba(7,9,10,0.82); margin-bottom: clamp(32px, 5vh, 48px); text-wrap: pretty; }
+  .btn-whatsapp { display: inline-flex; align-items: center; gap: 14px; font-family: var(--font-body); font-size: clamp(14px, 1.2vw, 16px); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--paper); background: var(--ink); border: 2px solid var(--ink); border-radius: 999px; padding: 20px 40px; cursor: pointer; text-decoration: none; transition: transform 200ms var(--ease), box-shadow 200ms var(--ease); }
+  .btn-whatsapp:hover { transform: translateY(-3px); box-shadow: 0 18px 44px rgba(7,9,10,0.28); color: var(--paper); }
+  .btn-whatsapp svg { width: 22px; height: 22px; flex: none; }
+
+  /* FOOTER */
+  .footer { background: var(--ink); color: var(--paper); padding: clamp(56px, 9vh, 96px) clamp(24px, 5vw, 72px) clamp(32px, 5vh, 48px); }
+  .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 48px; padding-bottom: clamp(40px, 6vh, 64px); border-bottom: 1px solid rgba(244,251,250,0.14); }
+  .footer-brand { max-width: 300px; }
+  .footer-brand img { height: 96px; width: auto; margin-bottom: 20px; }
+  .footer-brand p { font-size: 14px; font-weight: 500; line-height: 1.6; color: rgba(244,251,250,0.6); text-wrap: pretty; }
+  .footer-cols { display: flex; flex-wrap: wrap; gap: clamp(40px, 6vw, 88px); }
+  .footer-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-col a { font-size: 14px; font-weight: 500; color: rgba(244,251,250,0.78); text-decoration: none; transition: color 180ms var(--ease); }
+  .footer-col a:hover { color: var(--accent); }
+  .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-top: 28px; font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: rgba(244,251,250,0.45); }
+  .footer-bottom .tag em { font-style: normal; color: var(--accent); }
+
+  html.js .reveal { opacity: 1; }
+  @media (prefers-reduced-motion: no-preference) {
+    html.js .reveal { opacity: 0; transform: translateY(26px); transition: opacity 800ms var(--ease), transform 800ms var(--ease); }
+    html.js .reveal.in-view { opacity: 1; transform: translateY(0); }
+  }
+  @media (max-width: 880px) { .nav-links .nav-link { display: none; } .nav-brand img.lockup { height: 38px; } }
+  @media (max-width: 620px) { .footer-top { flex-direction: column; } }
+
+  /* PRELOADER */
+  .preloader { position: fixed; inset: 0; z-index: 9999; background: var(--ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 600ms var(--ease), visibility 600ms var(--ease); }
+  .preloader.done { opacity: 0; visibility: hidden; }
+  .preloader__mark { height: clamp(56px, 8vw, 80px); width: auto; opacity: 0; transform: scale(0.92); animation: plIn 800ms var(--ease) forwards; }
+  .preloader__quote { max-width: 620px; margin: 0 clamp(24px, 6vw, 40px); text-align: center; font-family: var(--font-body); font-size: clamp(15px, 1.5vw, 19px); font-weight: 500; line-height: 1.65; color: rgba(244,251,250,0.78); text-wrap: pretty; opacity: 0; animation: plIn 900ms var(--ease) 400ms forwards; }
+  .preloader__quote em { font-style: normal; color: var(--accent); }
+  .preloader__bar { width: 120px; height: 2px; border-radius: 2px; background: rgba(244,251,250,0.14); overflow: hidden; }
+  .preloader__bar::after { content: ""; display: block; height: 100%; width: 38%; border-radius: 2px; background: var(--accent); animation: plSweep 1.15s var(--ease) infinite; }
+  @keyframes plIn { to { opacity: 1; transform: scale(1); } }
+  @keyframes plSweep { 0% { transform: translateX(-140%); } 100% { transform: translateX(380%); } }
+</style>
+</head>
+<body>
+
+<nav class="nav" data-solid="false">
+  <a class="nav-brand" href="UNQA Home.html">
+    <img class="lockup" src="assets/logo-horizontal-blanco.png" alt="UNQA"></img>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="UNQA Home.html">Inicio</a>
+    <a class="nav-link" href="Quienes somos.html">¿Quiénes somos?</a>
+    <a class="nav-link active" href="Nuestras pruebas.html">Nuestras pruebas</a>
+    <a class="nav-cta" href="https://wa.me/593969152470?text=Hola%20UNQA%2C%20quiero%20contactarlos." target="_blank" rel="noopener">Contáctanos</a>
+  </div>
+</nav>
+
+<section class="page-hero" data-screen-label="Pruebas — hero">
+  <span class="overline">Nuestras pruebas</span>
+  <h1>Mira UNQA <em>en acción.</em></h1>
+  <p class="reveal">Cómo entrenadores y formadores usan la app para medir, comparar y proyectar el talento de cada deportista, directamente desde la cancha.</p>
+</section>
+
+<section class="video-wrap" data-screen-label="Video demo">
+  <div class="video reveal" role="button" aria-label="Reproducir video demo (próximamente)">
+    <img class="video-bg" src="assets/app/test-grid.png" alt="Vista de la plataforma UNQA mostrando la selección de pruebas"></img>
+    <div class="video-play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.33 5v14l11-7z"></path></svg></div>
+  </div>
+  <div class="video-cap reveal">
+    <span>Pruebas estandarizadas</span>
+    <span>Comparación con el pool nacional</span>
+    <span>Perfil y proyección del deportista</span>
+  </div>
+</section>
+
+<section class="cta-final" data-screen-label="Contacto">
+  <div class="cta-inner">
+    <span class="overline">Empieza hoy</span>
+    <h2 class="cta-title">Llevemos UNQA <br>a tu cancha.</h2>
+    <p class="cta-sub">Cuéntanos sobre tu club o academia y te mostramos cómo funciona. Escríbenos por WhatsApp, respondemos rápido.</p>
+    <a class="btn-whatsapp" href="https://wa.me/593969152470?text=Hola%20UNQA%2C%20quiero%20una%20demo%20del%20app%20para%20mi%20club." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path></svg>
+      Escríbenos por WhatsApp
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="assets/logo-vertical-blanco.png" alt="UNQA"></img>
+      <p>Nivelamos la cancha. Tecnología, datos y propósito para que ningún talento se pierda.</p>
+    </div>
+    <nav class="footer-cols">
+      <div class="footer-col">
+        <h4>Explorar</h4>
+        <ul>
+          <li><a href="UNQA Home.html">Inicio</a></li>
+          <li><a href="Quienes somos.html">¿Quiénes somos?</a></li>
+          <li><a href="Nuestras pruebas.html">Nuestras pruebas</a></li>
+          <li><a href="https://wa.me/593969152470" target="_blank" rel="noopener">Contáctanos</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><a href="https://wa.me/593969152470" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:hola@unqa.ec">hola@unqa.ec</a></li>
+          <li><a href="https://instagram.com/unqa.ec" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 UNQA · Ecuador</span>
+    <span class="tag"><em>Sé</em> pasión · inspiración · fuerza · disciplina</span>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+  (function () {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var forceSolid = nav.dataset.solid === 'true';
+    function onScroll() {
+      if (forceSolid) { nav.classList.add('is-scrolled'); return; }
+      nav.classList.toggle('is-scrolled', window.scrollY > 24);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  })();
+  (function () {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+    }, { threshold: 0.18 });
+    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>

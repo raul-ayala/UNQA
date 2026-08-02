@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"></meta>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+<meta name="design_doc_mode" content="canvas"></meta>
+<title>UNQA · Preloader · 3 opciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet"></link>
+<style>
+  @font-face { font-family:'Ringold Sans'; src:url('assets/fonts/Ringold-Sans.otf') format('opentype'); font-display:swap; }
+  :root { --accent:#3EDFDB; --accent-deep:#2FA9AF; --ink:#07090A; --paper:#F4FBFA; --disp:'Ringold Sans',sans-serif; --body:'Montserrat',sans-serif; --ease:cubic-bezier(.22,1,.36,1); }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--body)}
+  .frame{position:absolute;width:960px;height:600px;overflow:hidden;background:var(--ink);display:flex;align-items:center;justify-content:center}
+  .plabel{position:absolute;white-space:nowrap;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#6b7280}
+  .replay{position:absolute;right:16px;bottom:14px;z-index:5;font-family:var(--body);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,251,250,.5);background:transparent;border:1px solid rgba(244,251,250,.22);border-radius:999px;padding:7px 14px;cursor:pointer}
+  .replay:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* ══ A · Reveal por máscara + wordmark que se desliza ══ */
+  .a-stack{display:flex;flex-direction:column;align-items:center;gap:26px}
+  .a-icon{width:150px;height:auto;display:block;clip-path:inset(0 100% 0 0);animation:aWipe 1.1s var(--ease) .15s forwards}
+  @keyframes aWipe{to{clip-path:inset(0 0 0 0)}}
+  .a-word{overflow:hidden;height:60px;display:flex;align-items:center}
+  .a-word img{height:60px;width:auto;display:block;transform:translateY(110%);animation:aRise .9s var(--ease) .95s forwards}
+  @keyframes aRise{to{transform:translateY(0)}}
+  .a-rule{width:0;height:2px;background:var(--accent);animation:aRule 1s var(--ease) 1.5s forwards}
+  @keyframes aRule{to{width:200px}}
+
+  /* ══ B · Salto del jaguar + halo que se expande ══ */
+  .b-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:340px;height:340px}
+  .b-ring{position:absolute;top:50%;left:50%;width:190px;height:190px;margin:-95px 0 0 -95px;border:2px solid var(--accent);border-radius:50%;opacity:0;z-index:0;animation:bRing 2.4s var(--ease) infinite}
+  .b-ring:nth-child(2){animation-delay:.8s}
+  .b-ring:nth-child(3){animation-delay:1.6s}
+  @keyframes bRing{0%{transform:scale(1);opacity:.6}70%{opacity:.12}100%{transform:scale(2.1);opacity:0}}
+  .b-icon{position:relative;z-index:1;width:170px;height:auto;opacity:0;transform:translateY(26px) scale(.9);animation:bPounce 1.15s var(--ease) .1s forwards}
+  @keyframes bPounce{0%{opacity:0;transform:translateY(26px) scale(.9)}60%{opacity:1;transform:translateY(-8px) scale(1.03)}100%{opacity:1;transform:translateY(0) scale(1)}}
+  .b-word{position:absolute;z-index:2;bottom:26px;left:50%;transform:translateX(-50%);opacity:0;animation:bFade .9s var(--ease) 1.1s forwards}
+  .b-word img{height:48px;width:auto;display:block}
+  @keyframes bFade{to{opacity:1}}
+
+  /* ══ C · Las manchas del jaguar aparecen y el lockup se asienta ══ */
+  .c-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:30px}
+  .c-dots{display:flex;align-items:center;gap:16px;height:26px}
+  .c-dots i{display:block;border-radius:50%;background:var(--accent);transform:scale(0);animation:cPop .7s var(--ease) forwards}
+  .c-dots i:nth-child(1){width:14px;height:14px;animation-delay:.05s}
+  .c-dots i:nth-child(2){width:22px;height:22px;animation-delay:.22s}
+  .c-dots i:nth-child(3){width:10px;height:10px;animation-delay:.39s}
+  .c-dots i:nth-child(4){width:18px;height:18px;animation-delay:.56s}
+  @keyframes cPop{0%{transform:scale(0)}65%{transform:scale(1.22)}100%{transform:scale(1)}}
+  .c-lockup{height:78px;width:auto;display:block;opacity:0;filter:blur(10px);transform:scale(.96);animation:cSettle 1.1s var(--ease) .95s forwards}
+  @keyframes cSettle{to{opacity:1;filter:blur(0);transform:scale(1)}}
+  .c-dots.out{animation:cOut .6s var(--ease) 1.15s forwards}
+  @keyframes cOut{to{opacity:0;transform:translateY(-10px)}}
+</style>
+</head>
+<body>
+
+<div class="plabel" style="left:0;top:24px">A · Reveal por máscara + wordmark que sube</div>
+<section class="frame" id="fA" style="left:0;top:60px">
+  <div class="a-stack">
+    <img class="a-icon" src="assets/logo-icono-blanco.png" alt=""></img>
+    <div class="a-word"><img src="assets/logo-wordmark-blanco.png" alt="UNQA"></img></div>
+    <div class="a-rule"></div>
+  </div>
+  <button class="replay" data-target="fA">Replay</button>
+</section>
+
+<div class="plabel" style="left:1040px;top:24px">B · Salto del jaguar + halo</div>
+<section class="frame" id="fB" style="left:1040px;top:60px">
+  <div class="b-wrap">
+    <span class="b-ring"></span><span class="b-ring"></span><span class="b-ring"></span>
+    <img class="b-icon" src="assets/logo-icono-blanco.png" alt=""></img>
+    <div class="b-word"><img src="assets/logo-wordmark-blanco.png" alt="UNQA"></img></div>
+  </div>
+  <button class="replay" data-target="fB">Replay</button>
+</section>
+
+<div class="plabel" style="left:0;top:724px">C · Manchas del jaguar y lockup que se asienta</div>
+<section class="frame" id="fC" style="left:0;top:760px">
+  <div class="c-wrap">
+    <div class="c-dots out"><i></i><i></i><i></i><i></i></div>
+    <img class="c-lockup" src="assets/logo-horizontal-blanco.png" alt="UNQA"></img>
+  </div>
+  <button class="replay" data-target="fC">Replay</button>
+</section>
+
+<script>
+  function wire() {
+    document.querySelectorAll('.replay').forEach(function (b) {
+      b.onclick = function () {
+        var f = document.getElementById(b.dataset.target);
+        var clone = f.cloneNode(true);
+        f.parentNode.replaceChild(clone, f);
+        wire();
+      };
+    });
+  }
+  wire();
+</script>
+
+</body>
+</html>
